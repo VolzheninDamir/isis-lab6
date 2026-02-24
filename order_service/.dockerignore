@@ -1,0 +1,39 @@
+# Виртуальное окружение
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+
+# Кэши Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Файлы редакторов и IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# Docker и CI
+Dockerfile
+.dockerignore
+README.md
+
+# Git
+.git/
+.gitignore

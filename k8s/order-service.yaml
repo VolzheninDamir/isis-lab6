@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: order-service:k8s
+        imagePullPolicy: Never
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        livenessProbe:
+          exec:
+            command:
+            - ls
+            - /app/app.py
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - ls
+            - /app/app.py
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "32Mi"
+          limits:
+            cpu: "100m"
+            memory: "64Mi"

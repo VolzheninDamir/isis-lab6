@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: notification-service:k8s
+        imagePullPolicy: Never
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        livenessProbe:
+          exec:
+            command:
+            - ls
+            - /app/app.py
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - ls
+            - /app/app.py
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "32Mi"
+          limits:
+            cpu: "100m"
+            memory: "64Mi"
